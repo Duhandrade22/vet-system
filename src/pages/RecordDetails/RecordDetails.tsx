@@ -1,0 +1,318 @@
+import React, { useEffect } from "react";
+import { Button } from "../../components/Button/Button";
+import { InputField, TextareaField } from "../../components/Form/Form";
+import { Breadcrumb, Header } from "../../components/Header/Header";
+import { LoadingSpinner } from "../../components/LoadingSpinner/LoadingSpinner";
+import { Modal } from "../../components/Modal/Modal";
+import { useRecordDetails } from "../../hooks/useRecordDetails";
+import { formatDate } from "../../utils/formatters";
+import styles from "./RecordDetails.module.css";
+
+export const RecordDetails: React.FC = () => {
+  const {
+    record,
+    animal,
+    loading,
+    isModalOpen,
+    formData,
+    setIsModalOpen,
+    setFormData,
+    loadData,
+    handleDeleteRecord,
+    handleUpdate,
+  } = useRecordDetails();
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const openEditModal = () => {
+    if (!record) return;
+
+    setFormData({
+      weight: record.weight,
+      medications: record.medications,
+      dosage: record.dosage,
+      notes: record.notes,
+      attendedAt: new Date(record.attendedAt).toISOString().slice(0, 16),
+    });
+    setIsModalOpen(true);
+  };
+
+  if (loading || !record || !animal) {
+    return (
+      <div className={styles.page}>
+        <Header />
+        <main
+          className={styles.container}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <LoadingSpinner size="lg" />
+        </main>
+      </div>
+    );
+  }
+
+  return (
+    <div className={styles.page}>
+      <Header />
+
+      <main className={styles.container}>
+        <div
+          className="main__container"
+          style={{ maxWidth: "var(--container-lg)" }}
+        >
+          <Breadcrumb
+            items={[
+              { label: "Dashboard", href: "/" },
+              {
+                label: animal.owner?.name || "Tutor",
+                href: `/owners/${animal.ownerId}`,
+              },
+              { label: animal.name, href: `/animals/${animal.id}` },
+              { label: "Prontuário" },
+            ]}
+          />
+
+          <div className={styles.header}>
+            <div className={styles.headerTop}>
+              <div>
+                <h1 className={styles.headerTitle}>
+                  Prontuário de Atendimento
+                </h1>
+                <p className={styles.headerSubtitle}>
+                  {animal.name} - {formatDate(record.attendedAt)}
+                </p>
+              </div>
+              <div className={styles.headerActions}>
+                <Button
+                  variant="secondary"
+                  onClick={() => window.history.back()}
+                >
+                  ← Voltar
+                </Button>
+                <Button variant="secondary" onClick={openEditModal}>
+                  ✏️ Editar
+                </Button>
+                <Button variant="danger" onClick={handleDeleteRecord}>
+                  🗑️ Excluir
+                </Button>
+              </div>
+            </div>
+
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+                gap: "1rem",
+                paddingTop: "1rem",
+                borderTop: "1px solid #E5E7EB",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "0.25rem",
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: "0.75rem",
+                    color: "#9CA3AF",
+                    textTransform: "uppercase",
+                    fontWeight: 500,
+                  }}
+                >
+                  Animal
+                </span>
+                <span style={{ fontSize: "0.875rem", color: "#111827" }}>
+                  {animal.name}
+                </span>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "0.25rem",
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: "0.75rem",
+                    color: "#9CA3AF",
+                    textTransform: "uppercase",
+                    fontWeight: 500,
+                  }}
+                >
+                  Data do Atendimento
+                </span>
+                <span style={{ fontSize: "0.875rem", color: "#111827" }}>
+                  {formatDate(record.attendedAt)}
+                </span>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "0.25rem",
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: "0.75rem",
+                    color: "#9CA3AF",
+                    textTransform: "uppercase",
+                    fontWeight: 500,
+                  }}
+                >
+                  Peso
+                </span>
+                <span style={{ fontSize: "0.875rem", color: "#111827" }}>
+                  {record.weight} kg
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div
+            style={{
+              backgroundColor: "#FFFFFF",
+              borderRadius: "0.75rem",
+              padding: "1.5rem",
+              marginTop: "2rem",
+            }}
+          >
+            <div style={{ marginBottom: "1.5rem" }}>
+              <h3
+                style={{
+                  fontSize: "var(--font-size-lg)",
+                  fontWeight: "var(--font-weight-semibold)",
+                  marginBottom: "var(--spacing-sm)",
+                }}
+              >
+                Medicamentos
+              </h3>
+              <p style={{ color: "var(--text-secondary)" }}>
+                {record.medications}
+              </p>
+            </div>
+
+            <div style={{ marginBottom: "var(--spacing-lg)" }}>
+              <h3
+                style={{
+                  fontSize: "var(--font-size-lg)",
+                  fontWeight: "var(--font-weight-semibold)",
+                  marginBottom: "var(--spacing-sm)",
+                }}
+              >
+                Dosagem
+              </h3>
+              <p style={{ color: "var(--text-secondary)" }}>{record.dosage}</p>
+            </div>
+
+            <div>
+              <h3
+                style={{
+                  fontSize: "var(--font-size-lg)",
+                  fontWeight: "var(--font-weight-semibold)",
+                  marginBottom: "var(--spacing-sm)",
+                }}
+              >
+                Observações
+              </h3>
+              <p
+                style={{
+                  color: "var(--text-secondary)",
+                  lineHeight: "var(--line-height-relaxed)",
+                  whiteSpace: "pre-wrap",
+                }}
+              >
+                {record.notes}
+              </p>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title="Editar Prontuário"
+        actions={[
+          {
+            text: "Cancelar",
+            variant: "secondary",
+            onClick: () => setIsModalOpen(false),
+          },
+          { text: "Salvar", variant: "primary", onClick: handleUpdate },
+        ]}
+      >
+        <form>
+          <InputField
+            label="Peso (kg)"
+            name="weight"
+            type="text"
+            placeholder="12.5"
+            required
+            value={formData.weight || ""}
+            onChange={(e) =>
+              setFormData({ ...formData, weight: e.target.value })
+            }
+          />
+
+          <InputField
+            label="Data do atendimento"
+            name="attendedAt"
+            type="datetime-local"
+            required
+            value={formData.attendedAt || ""}
+            onChange={(e) =>
+              setFormData({ ...formData, attendedAt: e.target.value })
+            }
+          />
+
+          <InputField
+            label="Medicamentos"
+            name="medications"
+            type="text"
+            placeholder="Ex: Dipirona, Amoxicilina"
+            required
+            value={formData.medications || ""}
+            onChange={(e) =>
+              setFormData({ ...formData, medications: e.target.value })
+            }
+          />
+
+          <InputField
+            label="Dosagem"
+            name="dosage"
+            type="text"
+            placeholder="Ex: 1g a cada 8h"
+            required
+            value={formData.dosage || ""}
+            onChange={(e) =>
+              setFormData({ ...formData, dosage: e.target.value })
+            }
+          />
+
+          <TextareaField
+            label="Observações"
+            name="notes"
+            placeholder="Descreva os sintomas, diagnóstico e orientações..."
+            required
+            rows={6}
+            value={formData.notes || ""}
+            onChange={(e) =>
+              setFormData({ ...formData, notes: e.target.value })
+            }
+          />
+        </form>
+      </Modal>
+    </div>
+  );
+};

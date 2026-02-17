@@ -1,0 +1,77 @@
+/* AnimalCard Component Styles */
+
+.card {
+  background-color: #FFFFFF;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  border: 1px solid #E5E7EB;
+  transition: all 150ms ease;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border-color: #10B981;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.name {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 9999px;
+  line-height: 1;
+  background-color: #F3F4F6;
+  color: #6B7280;
+}
+
+.body {
+  margin-bottom: 1rem;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.detail {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: #6B7280;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid #E5E7EB;
+}
+
+.recordsCount {
+  font-size: 0.875rem;
+  color: #6B7280;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}

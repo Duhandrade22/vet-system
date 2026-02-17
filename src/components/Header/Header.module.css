@@ -1,0 +1,113 @@
+/* Header Component Styles */
+
+.header {
+  background-color: #FFFFFF;
+  border-bottom: 1px solid #E5E7EB;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 4rem;
+  padding: 0 2rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #3B82F6;
+}
+
+.brandIcon {
+  font-size: 1.5rem;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.userInfo {
+  text-align: right;
+}
+
+.userName {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #111827;
+  display: block;
+}
+
+.userRole {
+  font-size: 0.75rem;
+  color: #6B7280;
+}
+
+/* Avatar */
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 9999px;
+  background-color: #3B82F6;
+  color: #FFFFFF;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.avatarSm {
+  width: 32px;
+  height: 32px;
+  font-size: 0.875rem;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: #6B7280;
+  margin-bottom: 1.5rem;
+}
+
+.breadcrumbItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.breadcrumbLink {
+  color: #6B7280;
+  transition: color 150ms ease;
+}
+
+.breadcrumbLink:hover {
+  color: #3B82F6;
+}
+
+.breadcrumbSeparator {
+  color: #9CA3AF;
+}
+
+.breadcrumbCurrent {
+  color: #111827;
+  font-weight: 500;
+}

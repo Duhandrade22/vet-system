@@ -1,0 +1,110 @@
+/* Login/Register Pages Styles */
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #dbeafe 0%, #d1fae5 100%);
+  padding: 2rem 1rem;
+}
+
+.container {
+  width: 100%;
+  max-width: 480px;
+}
+
+.card {
+  background-color: #ffffff;
+  border-radius: 1rem;
+  padding: 3rem;
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.logo {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.logoIcon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.logoTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.25rem;
+}
+
+.logoSubtitle {
+  font-size: 1rem;
+  color: #6b7280;
+}
+
+.form {
+  margin-bottom: 1.5rem;
+}
+
+.footer {
+  text-align: center;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.footerText {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-bottom: 0.25rem;
+}
+
+.footerLink {
+  font-weight: 500;
+  color: #3b82f6;
+}
+
+.footerLink:hover {
+  text-decoration: underline;
+}
+
+/* Password Strength Indicator */
+.passwordStrength {
+  margin-top: 0.5rem;
+}
+
+.passwordStrengthBar {
+  height: 4px;
+  background-color: #f3f4f6;
+  border-radius: 9999px;
+  overflow: hidden;
+  margin-bottom: 0.25rem;
+}
+
+.passwordStrengthFill {
+  height: 100%;
+  transition: all 300ms ease;
+  border-radius: 9999px;
+}
+
+.passwordStrengthFillWeak {
+  width: 33%;
+  background-color: #ef4444;
+}
+
+.passwordStrengthFillMedium {
+  width: 66%;
+  background-color: #f59e0b;
+}
+
+.passwordStrengthFillStrong {
+  width: 100%;
+  background-color: #10b981;
+}
+
+.passwordStrengthText {
+  font-size: 0.75rem;
+  color: #6b7280;
+}

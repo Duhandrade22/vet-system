@@ -1,0 +1,112 @@
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { animalService } from "../services/animalService";
+import { ownerService } from "../services/ownerService";
+import { Animal, CreateAnimalDto } from "../types/Animal";
+import { Owner } from "../types/Owner";
+import { showToast } from "../utils/helpers";
+
+export const useOwnerDetails = () => {
+  const [owner, setOwner] = useState<Owner | null>(null);
+  const [animals, setAnimals] = useState<Animal[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [editingAnimal, setEditingAnimal] = useState<Animal | null>(null);
+  const [formData, setFormData] = useState<Partial<CreateAnimalDto>>({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
+
+  const loadData = async () => {
+    try {
+      const [ownerData, animalsData] = await Promise.all([
+        ownerService.getById(id!),
+        animalService.getByOwnerId(id!),
+      ]);
+      setOwner(ownerData);
+      setAnimals(animalsData);
+    } catch (error) {
+      showToast(
+        error instanceof Error ? error.message : "Erro ao carregar dados",
+        "error",
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteOwner = async () => {
+    if (
+      !owner ||
+      !window.confirm(`Tem certeza que deseja excluir o tutor "${owner.name}"?`)
+    )
+      return;
+
+    try {
+      await ownerService.delete(owner.id);
+      showToast("Tutor excluído com sucesso!", "success");
+      navigate("/");
+    } catch (error) {
+      showToast(
+        error instanceof Error ? error.message : "Erro ao excluir tutor",
+        "error",
+      );
+    }
+  };
+
+  const handleDeleteAnimal = async (animal: Animal) => {
+    if (
+      !window.confirm(
+        `Tem certeza que deseja excluir o animal "${animal.name}"?`,
+      )
+    )
+      return;
+
+    try {
+      await animalService.delete(animal.id);
+      showToast("Animal excluído com sucesso!", "success");
+      loadData();
+    } catch (error) {
+      showToast(
+        error instanceof Error ? error.message : "Erro ao excluir animal",
+        "error",
+      );
+    }
+  };
+
+  const handleSubmit = async () => {
+    try {
+      if (editingAnimal) {
+        await animalService.update(editingAnimal.id, formData);
+        showToast("Animal atualizado com sucesso!", "success");
+      } else {
+        await animalService.create(formData as CreateAnimalDto);
+        showToast("Animal cadastrado com sucesso!", "success");
+      }
+      setIsModalOpen(false);
+      loadData();
+    } catch (error) {
+      showToast(
+        error instanceof Error ? error.message : "Erro ao salvar animal",
+        "error",
+      );
+      throw error;
+    }
+  };
+
+  return {
+    handleDeleteOwner,
+    handleDeleteAnimal,
+    handleSubmit,
+    setEditingAnimal,
+    setFormData,
+    setIsModalOpen,
+    loading,
+    owner,
+    animals,
+    isModalOpen,
+    editingAnimal,
+    formData,
+    loadData,
+  };
+};

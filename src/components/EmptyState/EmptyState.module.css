@@ -1,0 +1,25 @@
+/* EmptyState Component Styles */
+
+.container {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.icon {
+  font-size: 4rem;
+  color: #9CA3AF;
+  margin-bottom: 1.5rem;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 0.5rem;
+}
+
+.description {
+  font-size: 1rem;
+  color: #6B7280;
+  margin-bottom: 1.5rem;
+}
