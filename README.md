@@ -1,6 +1,6 @@
 # Sistema Veterinário - React + TypeScript
 
-Sistema completo de gestão veterinária desenvolvido com **React**, **TypeScript**, **Vite** e **CSS puro**.
+Sistema completo de gestão para profissionais veterinários desenvolvido com **React**, **TypeScript**, **Vite** e **CSS puro**.
 
 ## 🚀 Tecnologias
 
