@@ -165,18 +165,6 @@ Este frontend se conecta à API REST disponível em:
 
 Documentação completa: https://github.com/Duhandrade22/vet-system-api
 
-## 📝 Próximos Passos
-
-Para adicionar as páginas de detalhes de animais e prontuários:
-
-- Criar `src/pages/AnimalDetails.tsx`
-- Criar `src/pages/RecordDetails.tsx`
-- Adicionar rotas no `App.tsx`
-
-## 🤝 Contribuindo
-
-Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou pull requests.
-
 ## 📄 Licença
 
 Este projeto está sob a licença MIT.
