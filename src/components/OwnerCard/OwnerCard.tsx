@@ -9,14 +9,9 @@ import styles from "./OwnerCard.module.css";
 interface OwnerCardProps {
   owner: Owner;
   onEdit?: (owner: Owner) => void;
-  onDelete?: (owner: Owner) => void;
 }
 
-export const OwnerCard: React.FC<OwnerCardProps> = ({
-  owner,
-  onEdit,
-  onDelete,
-}) => {
+export const OwnerCard: React.FC<OwnerCardProps> = ({ owner, onEdit }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -26,11 +21,6 @@ export const OwnerCard: React.FC<OwnerCardProps> = ({
   const handleEdit = (e: React.MouseEvent) => {
     e.stopPropagation();
     onEdit?.(owner);
-  };
-
-  const handleDelete = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    onDelete?.(owner);
   };
 
   const animalsCount = owner.animals?.length || 0;
@@ -85,16 +75,6 @@ export const OwnerCard: React.FC<OwnerCardProps> = ({
               title="Editar"
             >
               ✏️
-            </Button>
-          )}
-          {onDelete && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleDelete}
-              title="Excluir"
-            >
-              🗑️
             </Button>
           )}
         </div>

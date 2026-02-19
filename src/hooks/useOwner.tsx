@@ -6,13 +6,15 @@ import { Animal, CreateAnimalDto } from "../types/Animal";
 import { Owner } from "../types/Owner";
 import { showToast } from "../utils/helpers";
 
-export const useOwnerDetails = () => {
+export const useOwner = () => {
   const [owner, setOwner] = useState<Owner | null>(null);
   const [animals, setAnimals] = useState<Animal[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingAnimal, setEditingAnimal] = useState<Animal | null>(null);
   const [formData, setFormData] = useState<Partial<CreateAnimalDto>>({});
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [owners, setOwners] = useState<Owner[]>([]);
+  const [filteredOwners, setFilteredOwners] = useState<Owner[]>([]);
 
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
@@ -32,6 +34,35 @@ export const useOwnerDetails = () => {
       );
     } finally {
       setLoading(false);
+    }
+  };
+
+  const loadOwners = async () => {
+    try {
+      const data = await ownerService.getAll();
+      setOwners(data);
+      setFilteredOwners(data);
+    } catch (error) {
+      showToast(
+        error instanceof Error ? error.message : "Erro ao carregar tutores",
+        "error",
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const filterOwners = (query: string) => {
+    if (!query) {
+      setFilteredOwners(owners);
+    } else {
+      const filtered = owners.filter(
+        (owner) =>
+          owner.name.toLowerCase().includes(query.toLowerCase()) ||
+          owner.phone.includes(query) ||
+          owner.email?.toLowerCase().includes(query.toLowerCase()),
+      );
+      setFilteredOwners(filtered);
     }
   };
 
@@ -101,12 +132,16 @@ export const useOwnerDetails = () => {
     setEditingAnimal,
     setFormData,
     setIsModalOpen,
+    loadOwners,
+    loadData,
+    filterOwners,
     loading,
     owner,
     animals,
+    owners,
+    filteredOwners,
     isModalOpen,
     editingAnimal,
     formData,
-    loadData,
   };
 };

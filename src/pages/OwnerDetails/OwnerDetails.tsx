@@ -7,7 +7,7 @@ import { InputField, SelectField } from "../../components/Form/Form";
 import { Breadcrumb, Header } from "../../components/Header/Header";
 import { LoadingSpinner } from "../../components/LoadingSpinner/LoadingSpinner";
 import { Modal } from "../../components/Modal/Modal";
-import { useOwnerDetails } from "../../hooks/useOwnerDetails";
+import { useOwner } from "../../hooks/useOwner";
 import type { Animal } from "../../types/Animal";
 import { formatPhone } from "../../utils/formatters";
 import styles from "./OwnerDetails.module.css";
@@ -28,7 +28,7 @@ export const OwnerDetails: React.FC = () => {
     handleDeleteOwner,
     handleDeleteAnimal,
     handleSubmit,
-  } = useOwnerDetails();
+  } = useOwner();
 
   useEffect(() => {
     if (id) {

@@ -6,6 +6,7 @@ import { Header } from "../../components/Header/Header";
 import { LoadingSpinner } from "../../components/LoadingSpinner/LoadingSpinner";
 import { Modal } from "../../components/Modal/Modal";
 import { OwnerCard } from "../../components/OwnerCard/OwnerCard";
+import { useOwner } from "../../hooks/useOwner";
 import { useDebounce } from "../../hooks/useToast";
 import { ownerService } from "../../services/ownerService";
 import type { CreateOwnerDto, Owner } from "../../types/Owner";
@@ -18,13 +19,12 @@ import {
 import styles from "./Dashboard.module.css";
 
 export const Dashboard: React.FC = () => {
-  const [owners, setOwners] = useState<Owner[]>([]);
-  const [filteredOwners, setFilteredOwners] = useState<Owner[]>([]);
-  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingOwner, setEditingOwner] = useState<Owner | null>(null);
   const [formData, setFormData] = useState<Partial<CreateOwnerDto>>({});
+  const { loadOwners, owners, filteredOwners, filterOwners, loading } =
+    useOwner();
 
   const debouncedSearch = useDebounce(searchQuery, 300);
 
@@ -36,35 +36,6 @@ export const Dashboard: React.FC = () => {
     filterOwners(debouncedSearch);
   }, [debouncedSearch, owners]);
 
-  const loadOwners = async () => {
-    try {
-      const data = await ownerService.getAll();
-      setOwners(data);
-      setFilteredOwners(data);
-    } catch (error) {
-      showToast(
-        error instanceof Error ? error.message : "Erro ao carregar tutores",
-        "error",
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const filterOwners = (query: string) => {
-    if (!query) {
-      setFilteredOwners(owners);
-    } else {
-      const filtered = owners.filter(
-        (owner) =>
-          owner.name.toLowerCase().includes(query.toLowerCase()) ||
-          owner.phone.includes(query) ||
-          owner.email?.toLowerCase().includes(query.toLowerCase()),
-      );
-      setFilteredOwners(filtered);
-    }
-  };
-
   const openCreateModal = () => {
     setEditingOwner(null);
     setFormData({});
@@ -75,24 +46,6 @@ export const Dashboard: React.FC = () => {
     setEditingOwner(owner);
     setFormData(owner);
     setIsModalOpen(true);
-  };
-
-  const handleDelete = async (owner: Owner) => {
-    if (
-      !window.confirm(`Tem certeza que deseja excluir o tutor "${owner.name}"?`)
-    )
-      return;
-
-    try {
-      await ownerService.delete(owner.id);
-      showToast("Tutor excluído com sucesso!", "success");
-      loadOwners();
-    } catch (error) {
-      showToast(
-        error instanceof Error ? error.message : "Erro ao excluir tutor",
-        "error",
-      );
-    }
   };
 
   const handleSubmit = async () => {
@@ -188,12 +141,7 @@ export const Dashboard: React.FC = () => {
         ) : (
           <div className={styles.grid}>
             {filteredOwners.map((owner) => (
-              <OwnerCard
-                key={owner.id}
-                owner={owner}
-                onEdit={openEditModal}
-                onDelete={handleDelete}
-              />
+              <OwnerCard key={owner.id} owner={owner} onEdit={openEditModal} />
             ))}
           </div>
         )}
