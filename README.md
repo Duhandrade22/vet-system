@@ -1,4 +1,4 @@
-# Sistema Veterinário - React + TypeScript
+# Vetly - React + TypeScript
 
 Sistema completo de gestão para profissionais veterinários desenvolvido com **React**, **TypeScript**, **Vite** e **CSS puro**.
 
