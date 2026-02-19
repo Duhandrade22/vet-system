@@ -1,6 +1,7 @@
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import logo from "../../assets/images/vetly.png";
 import { Button } from "../../components/Button/Button";
 import { InputField } from "../../components/Form/Form";
 import { useLogin } from "../../hooks/useLogin";
@@ -27,8 +28,12 @@ export const Login: React.FC = () => {
       <div className={styles.container}>
         <div className={styles.card}>
           <div className={styles.logo}>
-            <div className={styles.logoIcon}>🏥</div>
-            <h1 className={styles.logoTitle}>Sistema Veterinário</h1>
+            <img
+              src={logo}
+              sizes="100px"
+              alt="Vetly"
+              className={styles.logoImage}
+            />
             <p className={styles.logoSubtitle}>Entre com sua conta</p>
           </div>
 
@@ -38,7 +43,6 @@ export const Login: React.FC = () => {
               name="email"
               type="email"
               placeholder="seu@email.com"
-              required
               value={formData.email}
               onChange={handleChange}
               validator={validateEmail}
@@ -49,7 +53,6 @@ export const Login: React.FC = () => {
               name="password"
               type={showPassword ? "text" : "password"}
               placeholder="Digite sua senha"
-              required
               value={formData.password}
               onChange={handleChange}
               validator={(value) => validateRequired(value, "Senha")}

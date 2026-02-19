@@ -1,5 +1,5 @@
-import { config } from '../config';
-import type { ApiError, HttpMethod } from '../types/api';
+import { config } from "../config";
+import type { ApiError, HttpMethod } from "../types/api";
 
 class ApiClient {
   private baseUrl: string;
@@ -14,29 +14,32 @@ class ApiClient {
 
   private getHeaders(includeAuth = true): Record<string, string> {
     const headers: Record<string, string> = {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     };
 
     if (includeAuth) {
       const token = this.getToken();
       if (token) {
-        headers['Authorization'] = `Bearer ${token}`;
+        headers["Authorization"] = `Bearer ${token}`;
       }
     }
 
     return headers;
   }
 
-  private async handleResponse<T>(response: Response): Promise<T> {
-    if (response.status === 401) {
+  private async handleResponse<T>(
+    response: Response,
+    includeAuth = true,
+  ): Promise<T> {
+    if (response.status === 401 && includeAuth) {
       localStorage.removeItem(config.tokenKey);
       localStorage.removeItem(config.userKey);
-      window.location.href = '/login';
-      throw new Error('Não autorizado. Faça login novamente.');
+      window.location.href = "/login";
+      throw new Error("Não autorizado. Faça login novamente.");
     }
 
     if (!response.ok) {
-      let errorMessage = 'Erro ao processar requisição';
+      let errorMessage = "Erro ao processar requisição";
 
       try {
         const errorData = await response.json();
@@ -62,9 +65,9 @@ class ApiClient {
 
   async request<T>(
     endpoint: string,
-    method: HttpMethod = 'GET',
+    method: HttpMethod = "GET",
     body?: unknown,
-    includeAuth = true
+    includeAuth = true,
   ): Promise<T> {
     try {
       const url = `${this.baseUrl}${endpoint}`;
@@ -75,34 +78,42 @@ class ApiClient {
         headers,
       };
 
-      if (body && (method === 'POST' || method === 'PATCH')) {
+      if (body && (method === "POST" || method === "PATCH")) {
         options.body = JSON.stringify(body);
       }
 
       const response = await fetch(url, options);
-      return this.handleResponse<T>(response);
+      return this.handleResponse<T>(response, includeAuth);
     } catch (error) {
       if (error instanceof Error) {
         throw error;
       }
-      throw new Error('Erro de conexão. Verifique sua internet.');
+      throw new Error("Erro de conexão. Verifique sua internet.");
     }
   }
 
   async get<T>(endpoint: string, includeAuth = true): Promise<T> {
-    return this.request<T>(endpoint, 'GET', undefined, includeAuth);
+    return this.request<T>(endpoint, "GET", undefined, includeAuth);
   }
 
-  async post<T>(endpoint: string, body: unknown, includeAuth = true): Promise<T> {
-    return this.request<T>(endpoint, 'POST', body, includeAuth);
+  async post<T>(
+    endpoint: string,
+    body: unknown,
+    includeAuth = true,
+  ): Promise<T> {
+    return this.request<T>(endpoint, "POST", body, includeAuth);
   }
 
-  async patch<T>(endpoint: string, body: unknown, includeAuth = true): Promise<T> {
-    return this.request<T>(endpoint, 'PATCH', body, includeAuth);
+  async patch<T>(
+    endpoint: string,
+    body: unknown,
+    includeAuth = true,
+  ): Promise<T> {
+    return this.request<T>(endpoint, "PATCH", body, includeAuth);
   }
 
   async delete<T>(endpoint: string, includeAuth = true): Promise<T> {
-    return this.request<T>(endpoint, 'DELETE', undefined, includeAuth);
+    return this.request<T>(endpoint, "DELETE", undefined, includeAuth);
   }
 }
 

@@ -25,8 +25,9 @@ export const useLogin = () => {
       setTimeout(() => navigate("/"), 500);
     } catch (error) {
       const message =
-        error instanceof Error ? error.message : "Credenciais inválidas";
-      showToast(message, "error");
+        error instanceof Error ? error.message : "E-mail ou senha inválidos";
+      showToast(message, "error", 5000);
+    } finally {
       setLoading(false);
     }
   };

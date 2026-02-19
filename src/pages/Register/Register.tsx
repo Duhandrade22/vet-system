@@ -1,6 +1,7 @@
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import logo from "../../assets/images/vetly.png";
 import { Button } from "../../components/Button";
 import { InputField } from "../../components/Form/Form";
 import { useRegister } from "../../hooks/useRegister";
@@ -32,8 +33,12 @@ export const Register: React.FC = () => {
       <div className={styles.container}>
         <div className={styles.card}>
           <div className={styles.logo}>
-            <div className={styles.logoIcon}>🏥</div>
-            <h1 className={styles.logoTitle}>Sistema Veterinário</h1>
+            <img
+              src={logo}
+              sizes="100px"
+              alt="Vetly"
+              className={styles.logoImage}
+            />
             <p className={styles.logoSubtitle}>Crie sua conta para começar</p>
           </div>
 

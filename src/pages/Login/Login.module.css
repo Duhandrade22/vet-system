@@ -5,7 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #DBEAFE 0%, #D1FAE5 100%);
+  background: linear-gradient(135deg, #dbeafe 0%, #d1fae5 100%);
   padding: 2rem 1rem;
 }
 
@@ -15,32 +15,31 @@
 }
 
 .card {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   border-radius: 1rem;
   padding: 3rem;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
 .logo {
   text-align: center;
-  margin-bottom: 3rem;
+  /* margin-bottom: 3rem; */
 }
 
-.logoIcon {
-  font-size: 4rem;
-  margin-bottom: 1rem;
-}
-
-.logoTitle {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #111827;
-  margin-bottom: 0.25rem;
+.logoImage {
+  display: block;
+  margin: 0 auto;
+  width: 200;
+  height: 50px;
+  margin-bottom: 2rem;
+  margin-top: 2rem;
 }
 
 .logoSubtitle {
   font-size: 1rem;
-  color: #6B7280;
+  color: #6b7280;
 }
 
 .form {
@@ -50,18 +49,18 @@
 .footer {
   text-align: center;
   padding-top: 1.5rem;
-  border-top: 1px solid #E5E7EB;
+  border-top: 1px solid #e5e7eb;
 }
 
 .footerText {
   font-size: 0.875rem;
-  color: #6B7280;
+  color: #6b7280;
   margin-bottom: 0.25rem;
 }
 
 .footerLink {
   font-weight: 500;
-  color: #3B82F6;
+  color: #3b82f6;
 }
 
 .footerLink:hover {
