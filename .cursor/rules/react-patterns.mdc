@@ -1,0 +1,60 @@
+---
+description: Padrões de componentes React do projeto
+globs: "**/*.tsx"
+alwaysApply: false
+---
+
+# Padrões React — Vet System
+
+## Estrutura de componente
+
+Cada componente deve ter sua própria pasta:
+
+```
+ComponentName/
+  ComponentName.tsx
+  ComponentName.module.css
+  index.ts
+```
+
+O `index.ts` exporta o componente:
+
+```typescript
+export { ComponentName } from './ComponentName';
+```
+
+## Convenções de nomenclatura
+
+- Componentes: PascalCase (`Button.tsx`, `OwnerCard.tsx`)
+- Hooks: camelCase com prefixo `use` (`useOwner.tsx`, `useToast.ts`)
+- Props tipadas com `interface` (não `type`)
+- Páginas ficam em `pages/`, componentes reutilizáveis em `components/`
+
+## Padrão de custom hook
+
+Hooks retornam um objeto com estado e funções:
+
+```typescript
+export function useExample() {
+  const [data, setData] = useState<Type[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const loadData = async () => {
+    setLoading(true);
+    try {
+      const result = await exampleService.getAll();
+      setData(result);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { data, loading, loadData };
+}
+```
+
+## Estilização
+
+- Usar CSS Modules (`styles` importado de `Component.module.css`)
+- Variáveis CSS globais de `global.css` para cores, fontes e espaçamentos
+- Ícones via `lucide-react`

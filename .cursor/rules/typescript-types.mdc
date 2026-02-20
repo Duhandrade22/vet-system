@@ -1,0 +1,39 @@
+---
+description: Convenções de tipos TypeScript
+globs: "src/types/**/*.ts"
+alwaysApply: false
+---
+
+# Tipos TypeScript — Vet System
+
+## Convenções
+
+- Usar `interface` para entidades (Owner, Animal, Record, User)
+- DTOs separados para criação e atualização (`CreateOwnerDto`, `UpdateOwnerDto`)
+- Tipos de API centralizados em `api.ts` (`ApiError`, `ApiResponse`, `HttpMethod`)
+- Nomes em PascalCase
+- Um arquivo por domínio
+
+## Estrutura de tipos por entidade
+
+```typescript
+export interface Entity {
+  id: string;
+  // campos da entidade
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CreateEntityDto {
+  // campos obrigatórios para criação (sem id, createdAt, updatedAt)
+}
+
+export interface UpdateEntityDto {
+  // campos opcionais para atualização
+}
+```
+
+## Validação
+
+- Tipos de validação em `utils/validators.ts` usando `ValidationResult`
+- Nunca usar `any` — preferir `unknown` quando o tipo não for conhecido

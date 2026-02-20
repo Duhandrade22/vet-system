@@ -1,3 +1,4 @@
+import { Check, Pencil, X } from "lucide-react";
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { AnimalCard } from "../../components/AnimalCard/AnimalCard";
@@ -9,7 +10,6 @@ import { LoadingSpinner } from "../../components/LoadingSpinner/LoadingSpinner";
 import { Modal } from "../../components/Modal/Modal";
 import { useOwner } from "../../hooks/useOwner";
 import type { Animal } from "../../types/Animal";
-import { formatPhone } from "../../utils/formatters";
 import styles from "./OwnerDetails.module.css";
 
 export const OwnerDetails: React.FC = () => {
@@ -21,15 +21,22 @@ export const OwnerDetails: React.FC = () => {
     isModalOpen,
     editingAnimal,
     formData,
+    isEditingOwner,
+    ownerFormData,
     setEditingAnimal,
     setFormData,
     setIsModalOpen,
+    setOwnerFormData,
     loadData,
     handleDeleteOwner,
     handleDeleteAnimal,
     handleSubmit,
+    handleUpdateOwner,
+    startEditingOwner,
+    cancelEditingOwner,
   } = useOwner();
-
+  console.log("owner", owner);
+  console.log("ownerFormData", ownerFormData);
   useEffect(() => {
     if (id) {
       loadData();
@@ -82,38 +89,124 @@ export const OwnerDetails: React.FC = () => {
 
         <div className={styles.header}>
           <div className={styles.headerTop}>
-            <div className="detail-header__info">
+            <div>
               <h1 className={styles.headerTitle}>{owner.name}</h1>
               <p className={styles.headerSubtitle}>Informações do tutor</p>
             </div>
             <div className={styles.headerActions}>
-              <Button variant="danger" onClick={handleDeleteOwner}>
-                🗑️ Excluir
-              </Button>
+              {isEditingOwner ? (
+                <>
+                  <Button variant="secondary" onClick={cancelEditingOwner}>
+                    <X size={16} /> Cancelar
+                  </Button>
+                  <Button variant="primary" onClick={handleUpdateOwner}>
+                    <Check size={16} /> Salvar
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button variant="secondary" onClick={startEditingOwner}>
+                    <Pencil size={16} /> Editar
+                  </Button>
+                  <Button variant="danger" onClick={handleDeleteOwner}>
+                    Excluir
+                  </Button>
+                </>
+              )}
             </div>
           </div>
 
-          <div className="detail-header__content">
-            <div className="detail-header__field">
-              <span className="detail-header__label">Telefone</span>
-              <span className="detail-header__value">
-                {formatPhone(owner.phone)}
-              </span>
-            </div>
-            {owner.email && (
-              <div className="detail-header__field">
-                <span className="detail-header__label">E-mail</span>
-                <span className="detail-header__value">{owner.email}</span>
-              </div>
-            )}
-            {owner.city && owner.state && (
-              <div className="detail-header__field">
-                <span className="detail-header__label">Cidade</span>
-                <span className="detail-header__value">
-                  {owner.city}, {owner.state}
-                </span>
-              </div>
-            )}
+          <div className={styles.editForm}>
+            <InputField
+              label="Nome"
+              name="name"
+              type="text"
+              required
+              disabled={!isEditingOwner}
+              value={isEditingOwner ? (ownerFormData.name ?? "") : owner.name}
+              onChange={(e) =>
+                setOwnerFormData({ ...ownerFormData, name: e.target.value })
+              }
+            />
+            <InputField
+              label="Telefone"
+              name="phone"
+              type="text"
+              required
+              disabled={!isEditingOwner}
+              value={isEditingOwner ? (ownerFormData.phone ?? "") : owner.phone}
+              onChange={(e) =>
+                setOwnerFormData({ ...ownerFormData, phone: e.target.value })
+              }
+            />
+            <InputField
+              label="E-mail"
+              name="email"
+              type="email"
+              disabled={!isEditingOwner}
+              value={
+                isEditingOwner
+                  ? (ownerFormData.email ?? "")
+                  : (owner.email ?? "")
+              }
+              onChange={(e) =>
+                setOwnerFormData({ ...ownerFormData, email: e.target.value })
+              }
+            />
+            <InputField
+              label="Cidade"
+              name="city"
+              type="text"
+              disabled={!isEditingOwner}
+              value={
+                isEditingOwner ? (ownerFormData.city ?? "") : (owner.city ?? "")
+              }
+              onChange={(e) =>
+                setOwnerFormData({ ...ownerFormData, city: e.target.value })
+              }
+            />
+            <SelectField
+              label="Estado"
+              name="state"
+              disabled={!isEditingOwner}
+              value={
+                isEditingOwner
+                  ? (ownerFormData.state ?? "")
+                  : (owner.state ?? "")
+              }
+              onChange={(e) =>
+                setOwnerFormData({ ...ownerFormData, state: e.target.value })
+              }
+              options={[
+                { value: "AC", label: "Acre" },
+                { value: "AL", label: "Alagoas" },
+                { value: "AP", label: "Amapá" },
+                { value: "AM", label: "Amazonas" },
+                { value: "BA", label: "Bahia" },
+                { value: "CE", label: "Ceará" },
+                { value: "DF", label: "Distrito Federal" },
+                { value: "ES", label: "Espírito Santo" },
+                { value: "GO", label: "Goiás" },
+                { value: "MA", label: "Maranhão" },
+                { value: "MT", label: "Mato Grosso" },
+                { value: "MS", label: "Mato Grosso do Sul" },
+                { value: "MG", label: "Minas Gerais" },
+                { value: "PA", label: "Pará" },
+                { value: "PB", label: "Paraíba" },
+                { value: "PR", label: "Paraná" },
+                { value: "PE", label: "Pernambuco" },
+                { value: "PI", label: "Piauí" },
+                { value: "RJ", label: "Rio de Janeiro" },
+                { value: "RN", label: "Rio Grande do Norte" },
+                { value: "RS", label: "Rio Grande do Sul" },
+                { value: "RO", label: "Rondônia" },
+                { value: "RR", label: "Roraima" },
+                { value: "SC", label: "Santa Catarina" },
+                { value: "SP", label: "São Paulo" },
+                { value: "SE", label: "Sergipe" },
+                { value: "TO", label: "Tocantins" },
+              ]}
+            />
           </div>
         </div>
 

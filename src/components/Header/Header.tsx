@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import logo from "../../assets/images/vetly.png";
 import { authService } from "../../services/authService";
 import { Button } from "../Button/Button";
 import styles from "./Header.module.css";
@@ -28,8 +29,7 @@ export const Header: React.FC<HeaderProps> = ({
           onClick={() => navigate("/")}
           style={{ cursor: "pointer" }}
         >
-          <span className={styles.brandIcon}>🏥</span>
-          <span>Sistema Veterinário</span>
+          <img src={logo} alt="Vet System" />
         </div>
 
         <div className={styles.actions}>

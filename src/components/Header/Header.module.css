@@ -1,9 +1,11 @@
 /* Header Component Styles */
 
 .header {
-  background-color: #FFFFFF;
-  border-bottom: 1px solid #E5E7EB;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  box-shadow:
+    0 1px 3px 0 rgba(0, 0, 0, 0.1),
+    0 1px 2px 0 rgba(0, 0, 0, 0.06);
   position: sticky;
   top: 0;
   z-index: 1020;
@@ -21,13 +23,9 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #3B82F6;
-}
-
-.brandIcon {
-  font-size: 1.5rem;
+  width: 150px;
+  height: 100px;
+  color: #3b82f6;
 }
 
 .actions {
@@ -55,7 +53,7 @@
 
 .userRole {
   font-size: 0.75rem;
-  color: #6B7280;
+  color: #6b7280;
 }
 
 /* Avatar */
@@ -66,8 +64,8 @@
   width: 40px;
   height: 40px;
   border-radius: 9999px;
-  background-color: #3B82F6;
-  color: #FFFFFF;
+  background-color: #3b82f6;
+  color: #ffffff;
   font-weight: 600;
   font-size: 1rem;
 }
@@ -84,7 +82,7 @@
   align-items: center;
   gap: 0.5rem;
   font-size: 0.875rem;
-  color: #6B7280;
+  color: #6b7280;
   margin-bottom: 1.5rem;
 }
 
@@ -95,16 +93,16 @@
 }
 
 .breadcrumbLink {
-  color: #6B7280;
+  color: #6b7280;
   transition: color 150ms ease;
 }
 
 .breadcrumbLink:hover {
-  color: #3B82F6;
+  color: #3b82f6;
 }
 
 .breadcrumbSeparator {
-  color: #9CA3AF;
+  color: #9ca3af;
 }
 
 .breadcrumbCurrent {

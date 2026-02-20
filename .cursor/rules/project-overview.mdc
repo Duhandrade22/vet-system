@@ -1,0 +1,40 @@
+---
+description: Visão geral do projeto Vet System e como o agente deve trabalhar
+alwaysApply: true
+---
+
+# Vet System — Contexto do Projeto
+
+Sistema de gestão veterinária (frontend) construído com React 18, TypeScript 5, Vite 7 e React Router DOM 6.
+
+## Arquitetura
+
+- **components/** — Componentes reutilizáveis (Button, Modal, Form, Cards, etc.)
+- **pages/** — Páginas da aplicação (Dashboard, Login, OwnerDetails, etc.)
+- **services/** — Serviços de API por domínio (authService, ownerService, etc.)
+- **hooks/** — Custom hooks para lógica de negócio (useOwner, useLogin, etc.)
+- **types/** — Interfaces e DTOs TypeScript
+- **utils/** — Funções utilitárias (formatters, validators, helpers)
+
+## Padrões obrigatórios
+
+- Componentes funcionais com TypeScript (nunca class components)
+- CSS Modules para estilização (nunca inline styles ou CSS global por componente)
+- Cada componente em sua própria pasta com: `Component.tsx`, `Component.module.css`, `index.ts`
+- Custom hooks para lógica reutilizável — hooks retornam objetos com estado e funções
+- Serviços de API via classe `ApiClient` centralizada em `services/api.ts`
+- Tipagem forte: interfaces para entidades, DTOs separados para create/update
+- Barrel exports (`index.ts`) em cada pasta de componente
+- Sem bibliotecas de estado global — usar useState + custom hooks
+- Sem bibliotecas de UI externas — componentes próprios
+
+## Como trabalhar neste projeto
+
+- Sempre responder em Português
+- Seguir os padrões já existentes no código antes de propor novos
+- Nunca instalar dependências sem justificativa clara
+- Ao criar novos componentes, seguir a estrutura de pasta existente
+- Usar as CSS Variables definidas em `global.css` para cores e espaçamentos
+- Usar `lucide-react` para ícones
+- Autenticação via JWT armazenado no localStorage
+- API base configurada via variável de ambiente `VITE_API_URL`

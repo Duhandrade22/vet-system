@@ -1,0 +1,43 @@
+---
+description: Padrões de serviços de API
+globs: "src/services/**/*.ts"
+alwaysApply: false
+---
+
+# Padrões de API — Vet System
+
+## Cliente HTTP
+
+Usar a classe `ApiClient` de `services/api.ts`. Nunca usar `fetch` diretamente.
+
+## Estrutura de serviços
+
+Cada domínio tem seu próprio arquivo de serviço:
+
+- `authService.ts` — Autenticação (login, register, logout)
+- `ownerService.ts` — CRUD de tutores
+- `animalService.ts` — CRUD de animais
+- `recordService.ts` — CRUD de prontuários
+
+## Autenticação
+
+- JWT armazenado no `localStorage`
+- Token enviado automaticamente pelo `ApiClient` via header `Authorization: Bearer`
+- Redirecionamento automático em erro 401
+
+## Ao criar novo serviço
+
+Seguir o padrão existente: exportar objeto com métodos assíncronos que usam `apiClient`.
+
+```typescript
+import { apiClient } from './api';
+import { Entity, CreateEntityDto, UpdateEntityDto } from '../types/Entity';
+
+export const entityService = {
+  getAll: () => apiClient.get<Entity[]>('/entities'),
+  getById: (id: string) => apiClient.get<Entity>(`/entities/${id}`),
+  create: (data: CreateEntityDto) => apiClient.post<Entity>('/entities', data),
+  update: (id: string, data: UpdateEntityDto) => apiClient.patch<Entity>(`/entities/${id}`, data),
+  delete: (id: string) => apiClient.delete(`/entities/${id}`),
+};
+```
