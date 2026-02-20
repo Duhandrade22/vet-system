@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { animalService } from "../services/animalService";
 import { ownerService } from "../services/ownerService";
 import { Animal, CreateAnimalDto } from "../types/Animal";
-import type { Owner, UpdateOwnerDto } from "../types/Owner";
+import type { Owner } from "../types/Owner";
 import { showToast } from "../utils/helpers";
 
 export const useOwner = () => {
@@ -15,10 +15,7 @@ export const useOwner = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [owners, setOwners] = useState<Owner[]>([]);
   const [filteredOwners, setFilteredOwners] = useState<Owner[]>([]);
-  const [isEditingOwner, setIsEditingOwner] = useState(false);
-  const [ownerFormData, setOwnerFormData] = useState<Partial<UpdateOwnerDto>>(
-    {},
-  );
+  const [ownerFormData, setOwnerFormData] = useState<Owner | null>(null);
 
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
@@ -131,34 +128,37 @@ export const useOwner = () => {
 
   const startEditingOwner = () => {
     if (!owner) return;
-    setOwnerFormData({
-      name: owner.name,
-      phone: owner.phone,
-      email: owner.email ?? "",
-      city: owner.city ?? "",
-      state: owner.state ?? "",
-    });
-    setIsEditingOwner(true);
+    setOwnerFormData({ ...owner });
   };
 
   const cancelEditingOwner = () => {
-    setOwnerFormData({});
-    setIsEditingOwner(false);
+    if (ownerFormData) {
+      setOwner(ownerFormData);
+    }
+    setOwnerFormData(null);
   };
 
   const handleUpdateOwner = async () => {
     if (!owner) return;
-
+    setLoading(true);
     try {
-      const updatedOwner = await ownerService.update(owner.id, ownerFormData);
-      setOwner(updatedOwner);
+      await ownerService.update(owner.id, {
+        name: owner.name,
+        phone: owner.phone,
+        email: owner.email,
+        city: owner.city,
+        state: owner.state,
+      });
+
+      await loadData();
       showToast("Tutor atualizado com sucesso!", "success");
-      setIsEditingOwner(false);
     } catch (error) {
       showToast(
         error instanceof Error ? error.message : "Erro ao atualizar tutor",
         "error",
       );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -170,12 +170,12 @@ export const useOwner = () => {
     setEditingAnimal,
     setFormData,
     setIsModalOpen,
-    setOwnerFormData,
     loadOwners,
     loadData,
     filterOwners,
     startEditingOwner,
     cancelEditingOwner,
+    setOwner,
     loading,
     owner,
     animals,
@@ -184,7 +184,5 @@ export const useOwner = () => {
     isModalOpen,
     editingAnimal,
     formData,
-    isEditingOwner,
-    ownerFormData,
   };
 };

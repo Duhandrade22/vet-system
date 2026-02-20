@@ -1,5 +1,5 @@
 import { Check, Pencil, X } from "lucide-react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { AnimalCard } from "../../components/AnimalCard/AnimalCard";
 import { Button } from "../../components/Button/Button";
@@ -14,6 +14,7 @@ import styles from "./OwnerDetails.module.css";
 
 export const OwnerDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const [isEditingOwner, setIsEditingOwner] = useState(false);
   const {
     owner,
     animals,
@@ -21,22 +22,18 @@ export const OwnerDetails: React.FC = () => {
     isModalOpen,
     editingAnimal,
     formData,
-    isEditingOwner,
-    ownerFormData,
+    setOwner,
+    startEditingOwner,
+    cancelEditingOwner,
     setEditingAnimal,
     setFormData,
     setIsModalOpen,
-    setOwnerFormData,
     loadData,
     handleDeleteOwner,
     handleDeleteAnimal,
     handleSubmit,
     handleUpdateOwner,
-    startEditingOwner,
-    cancelEditingOwner,
   } = useOwner();
-  console.log("owner", owner);
-  console.log("ownerFormData", ownerFormData);
   useEffect(() => {
     if (id) {
       loadData();
@@ -96,16 +93,34 @@ export const OwnerDetails: React.FC = () => {
             <div className={styles.headerActions}>
               {isEditingOwner ? (
                 <>
-                  <Button variant="secondary" onClick={cancelEditingOwner}>
+                  <Button
+                    variant="secondary"
+                    onClick={() => {
+                      cancelEditingOwner();
+                      setIsEditingOwner(true);
+                    }}
+                  >
                     <X size={16} /> Cancelar
                   </Button>
-                  <Button variant="primary" onClick={handleUpdateOwner}>
+                  <Button
+                    variant="primary"
+                    onClick={() => {
+                      handleUpdateOwner();
+                      setIsEditingOwner(false);
+                    }}
+                  >
                     <Check size={16} /> Salvar
                   </Button>
                 </>
               ) : (
                 <>
-                  <Button variant="secondary" onClick={startEditingOwner}>
+                  <Button
+                    variant="secondary"
+                    onClick={() => {
+                      startEditingOwner();
+                      setIsEditingOwner(true);
+                    }}
+                  >
                     <Pencil size={16} /> Editar
                   </Button>
                   <Button variant="danger" onClick={handleDeleteOwner}>
@@ -123,9 +138,9 @@ export const OwnerDetails: React.FC = () => {
               type="text"
               required
               disabled={!isEditingOwner}
-              value={isEditingOwner ? (ownerFormData.name ?? "") : owner.name}
+              value={owner.name}
               onChange={(e) =>
-                setOwnerFormData({ ...ownerFormData, name: e.target.value })
+                setOwner((prev) => ({ ...prev!, name: e.target.value }))
               }
             />
             <InputField
@@ -134,9 +149,9 @@ export const OwnerDetails: React.FC = () => {
               type="text"
               required
               disabled={!isEditingOwner}
-              value={isEditingOwner ? (ownerFormData.phone ?? "") : owner.phone}
+              value={owner.phone}
               onChange={(e) =>
-                setOwnerFormData({ ...ownerFormData, phone: e.target.value })
+                setOwner((prev) => ({ ...prev!, phone: e.target.value }))
               }
             />
             <InputField
@@ -144,13 +159,9 @@ export const OwnerDetails: React.FC = () => {
               name="email"
               type="email"
               disabled={!isEditingOwner}
-              value={
-                isEditingOwner
-                  ? (ownerFormData.email ?? "")
-                  : (owner.email ?? "")
-              }
+              value={owner.email ?? ""}
               onChange={(e) =>
-                setOwnerFormData({ ...ownerFormData, email: e.target.value })
+                setOwner((prev) => ({ ...prev!, email: e.target.value }))
               }
             />
             <InputField
@@ -158,24 +169,18 @@ export const OwnerDetails: React.FC = () => {
               name="city"
               type="text"
               disabled={!isEditingOwner}
-              value={
-                isEditingOwner ? (ownerFormData.city ?? "") : (owner.city ?? "")
-              }
+              value={owner.city ?? ""}
               onChange={(e) =>
-                setOwnerFormData({ ...ownerFormData, city: e.target.value })
+                setOwner((prev) => ({ ...prev!, city: e.target.value }))
               }
             />
             <SelectField
               label="Estado"
               name="state"
               disabled={!isEditingOwner}
-              value={
-                isEditingOwner
-                  ? (ownerFormData.state ?? "")
-                  : (owner.state ?? "")
-              }
+              value={owner.state ?? ""}
               onChange={(e) =>
-                setOwnerFormData({ ...ownerFormData, state: e.target.value })
+                setOwner((prev) => ({ ...prev!, state: e.target.value }))
               }
               options={[
                 { value: "AC", label: "Acre" },
