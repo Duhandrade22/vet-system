@@ -47,7 +47,7 @@ export const AnimalDetails: React.FC = () => {
     });
     setIsModalOpen(true);
   };
-
+  console.log("animal", animal);
   if (loading || !animal) {
     return (
       <div className={styles.page}>

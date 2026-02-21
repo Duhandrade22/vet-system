@@ -290,17 +290,18 @@ export const OwnerDetails: React.FC = () => {
               { value: "Outro", label: "Outro" },
             ]}
           />
-
-          <InputField
-            label="Raça"
-            name="breed"
-            type="text"
-            placeholder="Digite a raça (opcional)"
-            value={formData.breed || ""}
-            onChange={(e) =>
-              setFormData({ ...formData, breed: e.target.value })
-            }
-          />
+          {formData.species === "Outro" && (
+            <InputField
+              label="Qual a espécie?"
+              name="customSpecies"
+              type="text"
+              placeholder="Digite a espécie"
+              value={formData.customSpecies ?? ""}
+              onChange={(e) =>
+                setFormData({ ...formData, customSpecies: e.target.value })
+              }
+            />
+          )}
         </form>
       </Modal>
     </div>

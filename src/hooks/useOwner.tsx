@@ -108,8 +108,16 @@ export const useOwner = () => {
 
   const handleSubmit = async () => {
     try {
+      const dataToSend = {
+        ...formData,
+        species: formData.customSpecies
+          ? formData.customSpecies
+          : formData.species,
+      };
+      delete dataToSend.customSpecies;
+
       if (editingAnimal) {
-        await animalService.update(editingAnimal.id, formData);
+        await animalService.update(editingAnimal.id, dataToSend);
         showToast("Animal atualizado com sucesso!", "success");
       } else {
         await animalService.create(formData as CreateAnimalDto);

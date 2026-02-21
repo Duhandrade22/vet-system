@@ -83,7 +83,17 @@ export const Dashboard: React.FC = () => {
     return (
       <div className={styles.page}>
         <Header />
-        <LoadingSpinner size="lg" fullscreen />
+        <div
+          className={styles.container}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            minHeight: "60vh",
+          }}
+        >
+          <LoadingSpinner size="lg" />
+        </div>
       </div>
     );
   }

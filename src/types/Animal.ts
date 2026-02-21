@@ -1,5 +1,5 @@
-import type { Owner } from './Owner';
-import type { Record } from './Record';
+import type { Owner } from "./Owner";
+import type { Record } from "./Record";
 
 export interface Animal {
   id: string;
@@ -17,6 +17,9 @@ export interface CreateAnimalDto {
   species: string;
   breed?: string;
   ownerId: string;
+  customSpecies?: string;
 }
 
-export interface UpdateAnimalDto extends Partial<Omit<CreateAnimalDto, 'ownerId'>> {}
+export interface UpdateAnimalDto extends Partial<
+  Omit<CreateAnimalDto, "ownerId">
+> {}
