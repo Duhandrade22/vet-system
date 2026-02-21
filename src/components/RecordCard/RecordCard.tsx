@@ -31,7 +31,6 @@ export const RecordCard: React.FC<RecordCardProps> = ({
     e.stopPropagation();
     onDelete?.(record);
   };
-  console.log("data", record.attendedAt);
 
   return (
     <div className={styles.card} onClick={handleClick}>

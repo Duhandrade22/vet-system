@@ -302,6 +302,16 @@ export const OwnerDetails: React.FC = () => {
               }
             />
           )}
+          <InputField
+            label="Raça"
+            name="breed"
+            type="text"
+            placeholder="Digite a raça"
+            value={formData.breed ?? ""}
+            onChange={(e) =>
+              setFormData({ ...formData, breed: e.target.value })
+            }
+          />
         </form>
       </Modal>
     </div>

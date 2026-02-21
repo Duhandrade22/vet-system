@@ -8,5 +8,3 @@ ReactDOM.createRoot(document.getElementById("app")!).render(
     <App />
   </React.StrictMode>,
 );
-
-console.log("🏥 Sistema Veterinário inicializado");

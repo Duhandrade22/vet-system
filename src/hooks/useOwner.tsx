@@ -120,7 +120,7 @@ export const useOwner = () => {
         await animalService.update(editingAnimal.id, dataToSend);
         showToast("Animal atualizado com sucesso!", "success");
       } else {
-        await animalService.create(formData as CreateAnimalDto);
+        await animalService.create(dataToSend as CreateAnimalDto);
         showToast("Animal cadastrado com sucesso!", "success");
       }
       setIsModalOpen(false);
